@@ -29,7 +29,6 @@
                                        :cookie-jar *cookies*
                                        :want-stream stream
                                        :external-format-out :UTF-8)))
-        (log:trace "Reply to ~a with ~a: ~a" url extraparams resp)
         resp)
     (re-request (&optional new-extraparams)
       (request url (or new-extraparams extraparams)))))
@@ -49,7 +48,6 @@
 
 (defun token-request (url params &key (forum-token *token*) stream)
   (assert (not (eq forum-token NIL)) (forum-token) "Forum token is not available! Are you successfully logged in?")
-  (log:debug "Forum token request ~a: ~a" url params)
   (request url (acons "_xfToken" forum-token params) stream))
 
 (defun initiate (index user pass)

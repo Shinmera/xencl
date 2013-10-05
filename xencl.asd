@@ -24,7 +24,6 @@
                (:file "conversation")
                (:file "shoutbox"))
   :depends-on (:drakma
-               :log4cl
                :cl-json
                :split-sequence
                :local-time

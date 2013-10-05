@@ -5,7 +5,7 @@
 |#
 
 (defpackage org.tymoonnext.ed-bot.xencl
-  (:use :cl :lquery :log4cl)
+  (:use :cl :lquery)
   (:nicknames :xencl :forum)
   (:export :conversation
            :conversations

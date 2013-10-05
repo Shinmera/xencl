@@ -14,12 +14,10 @@
 (defmethod login ((user user))
   (setf *cookies* (make-instance 'drakma:cookie-jar)
         *user* user)
-  (log:debug "Retrieving login page...")
   ($ (initialize
       (request "/login") :type :HTML))
   (assert (string-equal (url "/") ($ "head base" (attr :href) (node))) ()
           'forum-error :code 1 :info "Header base does not match index page!")
-  (log:debug "Sending login request...")
   ($ (initialize
       (request "/login/login"
                      `(("login" . ,(id user))
@@ -31,7 +29,6 @@
                        ("_xfToken" . ""))) :type :HTML))
   (assert (not (search "Error" ($ "h1" (text) (node)))) ()
           'forum-error :code 2 :info (format NIL "Error while logging in: ~a" (get-text ".pageContent")))
-  (log:info "Login successful: ~a" ($ "h1" (text) (node)))
   (token))
 
 (defmethod logout ((user user))
