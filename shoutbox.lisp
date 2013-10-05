@@ -29,7 +29,6 @@
                     (h (if (>= h 24) 0 h))
                     (m (parse-integer (second time)))
                     (now (local-time:now)))
-               (format T "~a ~a ~%" h m)
                (local-time:adjust-timestamp! now (set :hour h) (set :minute m) (set :sec 0))))
 
            (make-post (li)
