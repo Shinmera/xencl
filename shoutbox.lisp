@@ -16,9 +16,13 @@
 
 (defmethod print-object ((shoutbox-post shoutbox-post) out)
   (print-unreadable-object (shoutbox-post out :type T)
-    (format out "#~a ~a <~a>" (id shoutbox-post) (local-time:format-timestring NIL (post-time shoutbox-post) :format '(:hour #\: :min)) (author shoutbox-post))))
+    (format out "#~d ~a <~a>" (id shoutbox-post) (local-time:format-timestring NIL (post-time shoutbox-post) :format '(:hour #\: :min)) (author shoutbox-post))))
 
 (defmethod get-posts ((shoutbox shoutbox) &key (last-post 0))
+  (setf last-post
+        (etypecase last-post
+          (string (parse-integer last-post))
+          (integer last-post)))
   (labels ((parse-timestring (timestring)
              (let* ((timestring (subseq timestring 0 (search " - " timestring)))
                     (time-ampm (split-sequence:split-sequence #\Space timestring))
@@ -32,16 +36,22 @@
                (local-time:adjust-timestamp! now (set :hour h) (set :minute m) (set :sec 0))))
 
            (make-post (li)
+             ($ ".mceSmilie" (each #'(lambda (node)
+                                       (let ((new-node (lquery:parse-html (format NIL "<span class=\"emoticon\">~a</span>" ($ node (attr :alt) (node))))))
+                                         ($ node (replace-with new-node))))))
+             ($ ".taigachat_messagetext a" (each #'(lambda (node)
+                              (let ((new-node (lquery:parse-html (format NIL "<span class=\"link\">~a</span>" ($ node (attr :href) (node))))))
+                                ($ node (replace-with new-node))))))
              (make-instance 'shoutbox-post
                             :id (parse-integer (subseq ($ li (attr :id) (node)) (length "taigachat_message_")))
                             :author ($ li ".username" (text) (node))
                             :time (parse-timestring ($ li ".DateTime" (text) (node)))
-                            :message ($ li ".taigachat_messagetext" (text) (node))))
+                            :message ($ li ".taigachat_messagetext" (html) (node))))
 
            (make-posts (html)
              ($ (initialize (concatenate 'string "<ul>" html "</ul>")))
              (remove-if #'(lambda (post) (<= (id post) last-post))
-              ($ "li" (each #'make-post :replace T)))))
+                        ($ "li" (each #'make-post :replace T)))))
 
     (let ((json
            (cl-json:decode-json
