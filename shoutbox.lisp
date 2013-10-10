@@ -19,6 +19,7 @@
     (format out "#~d ~a <~a>" (id shoutbox-post) (local-time:format-timestring NIL (post-time shoutbox-post) :format '(:hour #\: :min)) (author shoutbox-post))))
 
 (defmethod get-posts ((shoutbox shoutbox) &key (last-post 0))
+  "Retrieves as many shoutbox posts as possible, or from the last-post ID on."
   (setf last-post
         (etypecase last-post
           (string (parse-integer last-post))
@@ -72,7 +73,9 @@
                     ("message" . ,message)) :stream T)))
 
 (defmethod post ((shoutbox shoutbox) message &key)
+  "Post a new message to the shoutbox."
   (shoutbox-post message))
 
 (defmethod reply ((shoutbox-post shoutbox-post) message &key)
+  "Reply to a shoutbox post."
   (shoutbox-post (format NIL "~a: ~a" (author shoutbox-post) message)))
