@@ -45,9 +45,13 @@
 
 (defmethod start-thread ((forum forum) message &key title)
   "Start a new thread in a given forum."
+  (token-request (concatenate 'string "/forums/" (id forum) "/add-thread")
+                 `(("message_html" . ,message)
+                   ("title" . ,title)))
+  ;GET THREAD INSTANCE!
   )
 
-(defmethod get-posts ((thread meta-thread) &key (start 0) (num -1))
+(defmethod get-posts ((thread forum-thread) &key (start 0) (num -1))
   "Retrieve all or a subset of posts in a forum thread."
   (let ((page (format NIL "/threads/~a/" (id thread))))
     ($ (initialize (token-request page NIL) :type :HTML))
@@ -56,7 +60,13 @@
     (crawl-nodes ".messageList>li" #'(lambda (node) (make-meta-post node thread 'forum-post))
       :start start :num num)))
 
-(defmethod post ((thread meta-thread) message &key)
+(defmethod post ((thread forum-thread) message &key)
   "Post a new message to a forum thread."
   (token-request (concatenate 'string "/threads/" (id thread) "/add-reply")
-                 `(("message_html" . ,message))))
+                 `(("message_html" . ,message)))
+  ;GET POST INSTANCE!
+  )
+
+(defmethod reply ((post forum-post) message &key)
+  "Reply to a given post."
+  )

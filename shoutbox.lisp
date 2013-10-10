@@ -70,7 +70,9 @@
                   `(("_xfRequestUri" . ,(url "/shoutbox"))
                     ("_xfNoRedirect" . "1")
                     ("sidebar" . "0")
-                    ("message" . ,message)) :stream T)))
+                    ("message" . ,message)) :stream T))
+  ;GET POST INSTANCE
+  )
 
 (defmethod post ((shoutbox shoutbox) message &key)
   "Post a new message to the shoutbox."

@@ -64,11 +64,14 @@
 (defmethod post ((conversation conversation) message &key)
   "Reply to a given conversation."
   (token-request (concatenate 'string "/conversations/" (id conversation) "/insert-reply")
-                 `(("message_html" . ,message))))
+                 `(("message_html" . ,message)))
+  ;GET POST INSTANCE
+  )
 
 (defmethod invite ((conversation conversation) participants)
   "Invite a new user to the given conversation."
   (assert (string-equal (id *user*) (op conversation)) ()
           'forum-error :code 4 :text (format NIL "Cannot invite users as you are not the OP (~a != ~a)." (id *user*) (op conversation)))
   (token-request (concatenate 'string "/conversations/" (id conversation) "/invite-insert")
-                 `(("recipients" . ,(to-participants participants)))))
+                 `(("recipients" . ,(to-participants participants))))
+  NIL)
