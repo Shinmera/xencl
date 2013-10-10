@@ -113,6 +113,6 @@
         (let ((pos (search "at" datetime))
               (timestamp (local-time:make-timestamp)))
           (if pos
-              (progn (parse-time timestamp (subseq datetime 0 (1- pos)))
-                     (parse-date timestamp (subseq datetime (+ pos 3))))
+              (progn (parse-date timestamp (subseq datetime 0 (1- pos)))
+                     (parse-time timestamp (subseq datetime (+ pos 3))))
               (parse-date timestamp datetime))))))
