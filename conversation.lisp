@@ -52,14 +52,14 @@
                  :time ($ ".message" (first) ".messageMeta .datePermalink" (attr :data-time) (node))
                  :title ($ ".titleBar h1" (text) (node))))
 
-(defmethod get-posts ((conversation conversation) &key)
+(defmethod get-posts ((conversation conversation) &key (start 0) (num -1))
   "Retrieve all posts in the given conversation."
   (let ((page (format NIL "/conversations/~a/" (id conversation))))
     ($ (initialize (token-request page NIL) :type :HTML))
     (when (search "Error" ($ "h1" (text) (node)))
       (error 'forum-error :code 404 :page page :info ($ "label.OverlayCloser" (text) (node))))
-    (crawl-posts #'(lambda (node)
-                     (make-meta-post node conversation 'conversation-post)))))
+    (crawl-nodes ".messageList li" #'(lambda (node) (make-meta-post node conversation 'conversation-post))
+                 :start start :num num)))
 
 (defmethod post ((conversation conversation) message &key)
   "Reply to a given conversation."
