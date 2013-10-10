@@ -58,7 +58,7 @@
     ($ (initialize (token-request page NIL) :type :HTML))
     (when (search "Error" ($ "h1" (text) (node)))
       (error 'forum-error :code 404 :page page :info ($ "label.OverlayCloser" (text) (node))))
-    (crawl-nodes ".messageList li" #'(lambda (node) (make-meta-post node conversation 'conversation-post))
+    (crawl-nodes ".messageList>li" #'(lambda (node) (make-meta-post node conversation 'conversation-post))
                  :start start :num num)))
 
 (defmethod post ((conversation conversation) message &key)
