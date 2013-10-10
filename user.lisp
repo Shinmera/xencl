@@ -6,9 +6,8 @@
 
 (in-package :org.tymoonnext.ed-bot.xencl)
 
-(defclass user ()
-  ((id :initarg :id :accessor id)
-   (pass :initarg :pass :reader pass))
+(defclass user (meta-forum)
+  ((pass :initarg :pass :reader pass))
   (:documentation "Standard user object for user related interactions."))
 
 (defmethod login ((user user))
