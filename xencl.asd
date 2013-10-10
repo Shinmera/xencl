@@ -22,7 +22,6 @@
                (:file "meta")
                (:file "user")
                (:file "conversation")
-               (:file "thread")
                (:file "forum")
                (:file "shoutbox"))
   :depends-on (:drakma

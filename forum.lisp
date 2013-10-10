@@ -10,6 +10,14 @@
   ()
   (:documentation "Representation of a forum that contains threads."))
 
+(defclass forum-thread (meta-thread)
+  ((title :initarg :title :accessor title))
+  (:documentation "A thread in a forum category."))
+
+(defclass forum-post (meta-post)
+  ()
+  (:documentation "A post in a general forum thread."))
+
 (defun get-forums ()
   "Retrieve all forums."
   ($ (initialize (token-request "/forum/" NIL) :type :HTML))
@@ -34,3 +42,21 @@
         (error 'forum-error :code 404 :page page :info ($ "label.OverlayCloser" (text) (node))))
       (crawl-nodes ".discussionListItems>li" #'make-thread
                    :start start :num num))))
+
+(defmethod start-thread ((forum forum) message &key title)
+  "Start a new thread in a given forum."
+  )
+
+(defmethod get-posts ((thread meta-thread) &key (start 0) (num -1))
+  "Retrieve all or a subset of posts in a forum thread."
+  (let ((page (format NIL "/threads/~a/" (id thread))))
+    ($ (initialize (token-request page NIL) :type :HTML))
+    (when (search "Error" ($ "h1" (text) (node)))
+      (error 'forum-error :code 404 :page page :info ($ "label.OverlayCloser" (text) (node))))
+    (crawl-nodes ".messageList>li" #'(lambda (node) (make-meta-post node thread 'forum-post))
+      :start start :num num)))
+
+(defmethod post ((thread meta-thread) message &key)
+  "Post a new message to a forum thread."
+  (token-request (concatenate 'string "/threads/" (id thread) "/add-reply")
+                 `(("message_html" . ,message))))
