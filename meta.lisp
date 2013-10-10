@@ -45,7 +45,7 @@
 
 (defmethod print-object ((post meta-post) out)
   (print-unreadable-object (post out :type T)
-    (format out "~a/~a (~a)" (thread post) (id post) (author post))))
+    (format out "~a/~a (~a)" (id (thread post)) (id post) (author post))))
 
 (defgeneric reply (object message &key &allow-other-keys)
   (:documentation "Reply to a thread or post-flow."))
