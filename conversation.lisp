@@ -23,8 +23,10 @@
       (format NIL "~{~a~^, ~}" participants)
       participants))
 
+(defgeneric conversations (user)
+  (:documentation "Retrieve the conversations the user has participated in. Note that this only works for the logged in user."))
+
 (defmethod conversations ((user user))
-  "Retrieve the conversations the user has participated in. Note that this only works for the logged in user."
   (flet ((make-conversation (node)
            (make-instance 'conversation
                           :id (let ((id ($ node "h3.title a" (first) (attr :href) (node))))
@@ -38,8 +40,10 @@
     ($ ".discussionListItems li"
        (each #'make-conversation :replace T))))
 
+(defgeneric start-conversation (user participants title message)
+  (:documentation "Start a new conversation with the given participants."))
+
 (defmethod start-conversation ((user user) participants title message)
-  "Start a new conversation with the given participants."
   (checked-request "/conversations/insert"
                  `(("recipients" . ,(to-participants participants))
                    ("title" . ,title)
@@ -64,8 +68,10 @@
   ;GET POST INSTANCE
   )
 
+(defgeneric invite (conversation participants)
+  (:documentation "Invite a new user to the given conversation."))
+
 (defmethod invite ((conversation conversation) participants)
-  "Invite a new user to the given conversation."
   (assert (string-equal (id *user*) (op conversation)) ()
           'forum-error :code 4 :text (format NIL "Cannot invite users as you are not the OP (~a != ~a)." (id *user*) (op conversation)))
   (checked-request (concatenate 'string "/conversations/" (id conversation) "/invite-insert")

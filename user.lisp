@@ -10,6 +10,8 @@
   ((pass :initarg :pass :reader pass))
   (:documentation "Standard user object for user related interactions."))
 
+(defgeneric login (user) (:documentation "Attempt to log in with the provided user's credentials (id & pass)"))
+
 (defmethod login ((user user))
   (setf *cookies* (make-instance 'drakma:cookie-jar)
         *user* user)
@@ -29,6 +31,8 @@
   (assert (not (search "Error" ($ "h1" (text) (node)))) ()
           'forum-error :code 2 :info (format NIL "Error while logging in: ~a" (get-text ".pageContent")))
   (token))
+
+(defgeneric logout (user) (:documentation "Log the currently logged in user out again."))
 
 (defmethod logout ((user user))
   (token-request "/logout/" NIL)

@@ -57,6 +57,7 @@
     (error 'forum-error :code 404 :page url :info ($ "label.OverlayCloser" (text) (node)))))
 
 (defun initiate (index user pass)
+  "Shorthand function to set up XenCL."
   (setf *index* index)
   (login (make-instance 'user :id user :pass pass)))
 
