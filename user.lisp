@@ -46,8 +46,16 @@
   (token-request "/logout/" NIL)
   (setf *token* NIL *cookies* NIL))
 
-(defmethod start-thread ((user user) messsage &key)
+(defun get-user-id (user)
+  "Retrieve the actual ID of a user."
+  ; TODO
+  )
+
+(defmethod start-thread ((user user) message &key)
   "Start a new thread on the profile page of a user."
+  (checked-request (format NIL "/members/~a/post" (id user))
+                   `(("message" . ,message)))
+  ; GET THREAD INSTANCE!
   )
 
 (defmethod get-threads ((user user) &key (start 0) (num 20))
@@ -60,6 +68,10 @@
                           :time (parse-post-datetime ($ node ".messageInfo .DateTime" (attr :title) (node))))))
     (checked-request (format NIL "/members/~a/" (id user)) NIL)
     (crawl-nodes "#ProfilePostList>li" #'make-thread :start start :num num)))
+
+(defmethod get-posts ((thread profile-thread) &key (start 0) (num 20))
+  "Retrieve posts from a profile thread."
+  )
 
 (defmethod post ((thread profile-thread) message &key)
   "Post a new message to a thread on a user profile."
