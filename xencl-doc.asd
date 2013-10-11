@@ -11,4 +11,4 @@
 (defsystem xencl-doc
   :name "XenCL Doc"
   :components ((:file "documentation"))
-  :depends-on (:text-compare :lquery :lquery-doc))
+  :depends-on (:xencl :lquery :lquery-doc))
