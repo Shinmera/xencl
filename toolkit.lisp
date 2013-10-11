@@ -73,7 +73,7 @@
            (loop with ,rootsym = ($ ,navsym "a[rel=\"start\"]" (attr :href) (node))
               for ,itersym from 2 upto (parse-integer ($ ,navsym (attr :data-last) (node)))
               while ,predicate
-              do ($ (initialize (token-request (format NIL "/~apage-~a" ,rootsym ,itersym) NIL) :type :HTML))
+              do ($ (initialize (token-request (format NIL "/~a?page=~a" ,rootsym ,itersym) NIL) :type :HTML))
                 (,funcsym)))))))
 
 (defun crawl-nodes (node parser &key (start 0) (num -1))
