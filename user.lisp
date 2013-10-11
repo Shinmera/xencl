@@ -52,7 +52,14 @@
 
 (defmethod get-threads ((user user) &key (start 0) (num 20))
   "Retrieve the threads on the profile page of a user."
-  )
+  (flet ((make-thread (node)
+           (make-instance 'profile-thread
+                          :id (let ((id ($ node (attr :id) (node))))
+                                (subseq id (1+ (search "-" id :from-end T))))
+                          :op ($ node (attr :data-author) (node))
+                          :time (parse-post-datetime ($ node ".messageInfo .DateTime" (attr :title) (node))))))
+    (checked-request (format NIL "/members/~a/" (id user)) NIL)
+    (crawl-nodes "#ProfilePostList>li" #'make-thread :start start :num num)))
 
 (defmethod post ((thread profile-thread) message &key)
   "Post a new message to a thread on a user profile."
