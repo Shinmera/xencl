@@ -59,7 +59,7 @@
 (defun initiate (index user pass)
   "Shorthand function to set up XenCL."
   (setf *index* index)
-  (login (make-instance 'user :id user :pass pass)))
+  (login (make-instance 'user :title user :pass pass)))
 
 (defmacro do-pageinated (predicate &body body)
   (let ((funcsym (gensym "FUNC"))

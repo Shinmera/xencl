@@ -10,6 +10,14 @@
   ((pass :initarg :pass :reader pass))
   (:documentation "Standard user object for user related interactions."))
 
+(defclass profile-thread (meta-thread)
+  ()
+  (:documentation "Thread on the profile page of a user."))
+
+(defclass profile-post (meta-post)
+  ()
+  (:documentation "Post on a profile-thread of a user."))
+
 (defgeneric login (user) (:documentation "Attempt to log in with the provided user's credentials (id & pass)"))
 
 (defmethod login ((user user))
@@ -21,7 +29,7 @@
           'forum-error :code 1 :info "Header base does not match index page!")
   ($ (initialize
       (request "/login/login"
-                     `(("login" . ,(id user))
+                     `(("login" . ,(title user))
                        ("password" . ,(pass user))
                        ("register" . "0")
                        ("remember" . "1")
@@ -37,3 +45,19 @@
 (defmethod logout ((user user))
   (token-request "/logout/" NIL)
   (setf *token* NIL *cookies* NIL))
+
+(defmethod start-thread ((user user) messsage &key)
+  "Start a new thread on the profile page of a user."
+  )
+
+(defmethod get-threads ((user user) &key (start 0) (num 20))
+  "Retrieve the threads on the profile page of a user."
+  )
+
+(defmethod post ((thread profile-thread) message &key)
+  "Post a new message to a thread on a user profile."
+  )
+
+(defmethod reply ((post profile-post) message &key)
+  "Reply to a post on a user-profile thread."
+  )
