@@ -34,17 +34,16 @@
                                   (if (> (length datetime) 0)
                                       (local-time:unix-to-timestamp (parse-integer datetime))))
                           :title ($ node "h3.title a" (first) (text) (node)))))
-    ($ (initialize (token-request "/conversations" NIL) :type :HTML))
+    (checked-request "/conversations" NIL)
     ($ ".discussionListItems li"
        (each #'make-conversation :replace T))))
 
 (defmethod start-conversation ((user user) participants title message)
   "Start a new conversation with the given participants."
-  ($ (initialize (token-request "/conversations/insert"
-                                `(("recipients" . ,(to-participants participants))
-                                  ("title" . ,title)
-                                  ("message_html" . ,message)))
-                 :type :HTML))
+  (checked-request "/conversations/insert"
+                 `(("recipients" . ,(to-participants participants))
+                   ("title" . ,title)
+                   ("message_html" . ,message)))
   (make-instance 'conversation
                  :id (let ((id ($ ".pageNavLinkGroup .linkGroup a" (first) (attr :href) (node))))
                        (subseq id (1+ (search "/" id)) (search "/" id :from-end T)))
@@ -54,16 +53,13 @@
 
 (defmethod get-posts ((conversation conversation) &key (start 0) (num -1))
   "Retrieve all posts in the given conversation."
-  (let ((page (format NIL "/conversations/~a/" (id conversation))))
-    ($ (initialize (token-request page NIL) :type :HTML))
-    (when (search "Error" ($ "h1" (text) (node)))
-      (error 'forum-error :code 404 :page page :info ($ "label.OverlayCloser" (text) (node))))
-    (crawl-nodes ".messageList>li" #'(lambda (node) (make-meta-post node conversation 'conversation-post))
-                 :start start :num num)))
+  (checked-request (format NIL "/conversations/~a/" (id conversation)) NIL)
+  (crawl-nodes ".messageList>li" #'(lambda (node) (make-meta-post node conversation 'conversation-post))
+               :start start :num num))
 
 (defmethod post ((conversation conversation) message &key)
   "Reply to a given conversation."
-  (token-request (concatenate 'string "/conversations/" (id conversation) "/insert-reply")
+  (checked-request (concatenate 'string "/conversations/" (id conversation) "/insert-reply")
                  `(("message_html" . ,message)))
   ;GET POST INSTANCE
   )
@@ -72,6 +68,6 @@
   "Invite a new user to the given conversation."
   (assert (string-equal (id *user*) (op conversation)) ()
           'forum-error :code 4 :text (format NIL "Cannot invite users as you are not the OP (~a != ~a)." (id *user*) (op conversation)))
-  (token-request (concatenate 'string "/conversations/" (id conversation) "/invite-insert")
+  (checked-request (concatenate 'string "/conversations/" (id conversation) "/invite-insert")
                  `(("recipients" . ,(to-participants participants))))
   NIL)

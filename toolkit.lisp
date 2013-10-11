@@ -51,6 +51,11 @@
   (assert (not (eq forum-token NIL)) (forum-token) "Forum token is not available! Are you successfully logged in?")
   (request url (acons "_xfToken" forum-token params) stream))
 
+(defun checked-request (url params &key (forum-token *token*) stream)
+  ($ (initialize (token-request url params :forum-token forum-token :stream stream)))
+  (when (search "Error" ($ "h1" (text) (node)))
+    (error 'forum-error :code 404 :page url :info ($ "label.OverlayCloser" (text) (node)))))
+
 (defun initiate (index user pass)
   (setf *index* index)
   (login (make-instance 'user :id user :pass pass)))
