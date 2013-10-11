@@ -48,7 +48,7 @@
   ;GET THREAD INSTANCE!
   )
 
-(defmethod get-posts ((thread forum-thread) &key (start 0) (num -1))
+(defmethod get-posts ((thread forum-thread) &key (start 0) (num 20))
   "Retrieve all or a subset of posts in a forum thread."
   (checked-request (format NIL "/threads/~a/" (id thread)) NIL)
   (crawl-nodes ".messageList>li" #'(lambda (node) (make-meta-post node thread 'forum-post))

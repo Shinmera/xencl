@@ -55,7 +55,7 @@
                  :time ($ ".message" (first) ".messageMeta .datePermalink" (attr :data-time) (node))
                  :title ($ ".titleBar h1" (text) (node))))
 
-(defmethod get-posts ((conversation conversation) &key (start 0) (num -1))
+(defmethod get-posts ((conversation conversation) &key (start 0) (num 20))
   "Retrieve all posts in the given conversation."
   (checked-request (format NIL "/conversations/~a/" (id conversation)) NIL)
   (crawl-nodes ".messageList>li" #'(lambda (node) (make-meta-post node conversation 'conversation-post))
