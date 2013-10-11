@@ -52,7 +52,7 @@
   (request url (acons "_xfToken" forum-token params) stream))
 
 (defun checked-request (url params &key (forum-token *token*) stream)
-  ($ (initialize (token-request url params :forum-token forum-token :stream stream)))
+  ($ (initialize (token-request url params :forum-token forum-token :stream stream) :type :HTML))
   (when (search "Error" ($ "h1" (text) (node)))
     (error 'forum-error :code 404 :page url :info ($ "label.OverlayCloser" (text) (node)))))
 
