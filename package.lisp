@@ -10,12 +10,18 @@
   (:export :conversation
            :conversations
            :start-conversation
+           :start-thread
            :get-posts
+           :get-threads
+           :get-forums
            :post
-           :invite
            :reply
+           :invite
            :shoutbox
            :shoutbox-post
+           :forum
+           :forum-thread
+           :forum-post
            :*index*
            :*user*
            :forum-error
@@ -24,6 +30,7 @@
            :logout
            :id
            :pass
+           :title
            :author
            :op
            :post-time
