@@ -18,7 +18,6 @@
            :reply
            :invite
            :shoutbox
-           :shoutbox-post
            :forum
            :forum-thread
            :forum-post
