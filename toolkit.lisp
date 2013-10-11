@@ -7,9 +7,9 @@
 (in-package :org.tymoonnext.ed-bot.xencl)
 
 (defvar *cookies* (make-instance 'drakma:cookie-jar) "Contains the cookies required for authentication.")
-(defvar *token* "Contains the security token required in almost all requests.")
-(defvar *index* "String for the index of the forum without trailing slash.")
-(defvar *user* "Object containing the currently logged in user.")
+(defvar *token* NIL "Contains the security token required in almost all requests.")
+(defvar *index* NIL "String for the index of the forum without trailing slash.")
+(defvar *user* NIL "Object containing the currently logged in user.")
 
 (define-condition forum-error (error)
   ((info :initarg :info)
