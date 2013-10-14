@@ -65,8 +65,14 @@
   "Reply to a given conversation."
   (checked-request (concatenate 'string "/conversations/" (id conversation) "/insert-reply")
                  `(("message_html" . ,message)))
-  ;GET POST INSTANCE
-  )
+  (let ((post ($ ".messageList>li" (last))))
+    (make-meta-post post conversation 'conversation-post)))
+
+(defmethod reply ((post conversation-post) message &key)
+  "Reply to a message in a conversation."
+  (let ((message (format NIL "[quote=\"~a, convMessage: ~a\"]~a[/quote]~%~a"
+                         (author post) (id post) (message post) message)))
+    (post (thread post) message)))
 
 (defgeneric invite (conversation participants)
   (:documentation "Invite a new user to the given conversation."))
@@ -77,3 +83,9 @@
   (checked-request (concatenate 'string "/conversations/" (id conversation) "/invite-insert")
                  `(("recipients" . ,(to-participants participants))))
   NIL)
+
+(defgeneric leave (conversation)
+  (:documentation "Leave a given conversation."))
+
+(defmethod leave ((conversation conversation))
+  )
