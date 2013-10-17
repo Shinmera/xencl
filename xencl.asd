@@ -28,4 +28,5 @@
                :cl-json
                :split-sequence
                :local-time
-               :lquery))
+               :lquery
+               :cl-ppcre))
