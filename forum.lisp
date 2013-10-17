@@ -76,3 +76,12 @@
 (defmethod rate ((post forum-post) rating)
   (token-request (format NIL "/posts/~a/rate" (id post))
                  `(("rating" . ,rating))))
+
+(defmethod report ((post forum-post) reason &key)
+  )
+
+(defmethod edit ((post forum-post) new-message &key)
+  )
+
+(defmethod delete-post ((post forum-post) &key)
+  )
