@@ -79,4 +79,4 @@
 
 (defmethod reply ((post profile-post) message &key)
   "Reply to a post on a user-profile thread."
-  )
+  (post (thread post) (format NIL "@~a: ~a" (author post) message)))
