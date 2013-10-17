@@ -50,6 +50,14 @@
 (defgeneric reply (object message &key &allow-other-keys)
   (:documentation "Reply to a thread or post-flow."))
 
+(defgeneric report (post reason &key &allow-other-keys)
+  (:documentation "Report a post to the moderators."))
+
+(defgeneric edit (post new-message &key &allow-other-keys)
+  (:documentation "Edit a post."))
+
+(defgeneric delete-post (post &key &allow-other-keys)
+  (:documentation "Delete a post."))
 
 (defun make-meta-post (node &optional thread (class 'meta-post))
   (make-instance class
