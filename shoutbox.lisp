@@ -41,7 +41,8 @@
                                        (let ((new-node (lquery:parse-html (format NIL "<span class=\"emoticon\">~a</span>" ($ node (attr :alt) (node))))))
                                          ($ node (replace-with new-node))))))
              ($ ".taigachat_messagetext a" (each #'(lambda (node)
-                              (let ((new-node (lquery:parse-html (format NIL "<span class=\"link\">~a</span>" ($ node (attr :href) (node))))))
+                              (let* ((link (cl-ppcre:regex-replace-all "&" ($ node (attr :href) (node)) "&amp;"))
+                                     (new-node (lquery:parse-html (format NIL "<span class=\"link\">~a</span>" link))))
                                 ($ node (replace-with new-node))))))
              (make-instance 'shoutbox-post
                             :id (parse-integer (subseq ($ li (attr :id) (node)) (length "taigachat_message_")))
