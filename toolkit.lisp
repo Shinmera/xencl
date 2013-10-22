@@ -70,10 +70,10 @@
        (,funcsym)
        (let ((,navsym ($ ".PageNav" (node))))
          (when ,navsym
-           (loop with ,rootsym = ($ ,navsym "a[rel=\"start\"]" (attr :href) (node))
+           (loop with ,rootsym = (concatenate 'string "/" ($ ,navsym "a[rel=\"start\"]" (attr :href) (node)))
               for ,itersym from 2 upto (parse-integer ($ ,navsym (attr :data-last) (node)))
               while ,predicate
-              do ($ (initialize (token-request (format NIL "/~a?page=~a" ,rootsym ,itersym) NIL) :type :HTML))
+              do ($ (initialize (token-request ,rootsym `(("page" . ,(format NIL "~a" ,itersym)))) :type :HTML))
                 (,funcsym)))))))
 
 (defun crawl-nodes (node parser &key (start 0) (num -1))
@@ -89,6 +89,11 @@
               (subseq posts start)
               (subseq posts start end))
           NIL))))
+
+(defun parse-post-integer (integer)
+  (if (= 0 (length integer))
+      (parse-integer (cl-ppcre:regex-replace-all "\\," integer ""))
+      -1))
 
 (defvar *monthnames-to-int*
   '(:JAN 1 :FEB 2 :MAR 3 :APR 4 :MAY 5 :JUN 6 :JUL 7 :AUG 8 :SEP 9 :OCT 10 :NOV 11 :DEC 12))
