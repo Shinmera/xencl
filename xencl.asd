@@ -10,7 +10,7 @@
 
 (defsystem xencl
   :name "XenForo Communication Library"
-  :version "0.0.1"
+  :version "0.1.2"
   :license "Artistic"
   :author "Nicolas Hafner <shinmera@tymoon.eu>"
   :maintainer "Nicolas Hafner <shinmera@tymoon.eu>"
