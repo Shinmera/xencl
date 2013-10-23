@@ -11,7 +11,7 @@
    (like-count :initarg :like-count :reader like-count)
    (message-count :initarg :message-count :reader message-count)
    (trophy-count :initarg :trophy-count :reader trophy-count)
-   (follow-count :initarg :follow-count :reader follow-count)
+   (follower-count :initarg :follower-count :reader follower-count)
    (register-date :initarg :register-date :reader register-date)
    (last-activity :initarg :last-activity :reader last-activity))
   (:documentation "Standard user object for user related interactions."))
@@ -55,14 +55,16 @@
 (defun get-user (username)
   ;; We save a page load by using that getting the user-id also gets us the profile page.
   ;; Yay for hacks.
-  (let ((id (get-user-id username)))
+  (let ((id (get-user-id username))
+        (infos ($ ".profilePage .mast .secondaryContent" (first) "dd")))
     (make-instance 'user :id id :title username
-                   :last-activity 
-                   :register-date 
-                   :follow-count 
-                   :trophy-count 
-                   :message-count 
-                   :like-count )))
+                   :pass NIL
+                   :last-activity (parse-post-datetime ($ infos (eq 0) (text) (node)))
+                   :register-date (parse-post-datetime ($ infos (eq 1) (text) (node)))
+                   :follower-count (parse-post-integer ($ ".followBlocks .section" (eq 1) ".count" (text) (node)))
+                   :trophy-count (parse-post-integer ($ infos (eq 3) (text) (node)))
+                   :message-count (parse-post-integer ($ infos (eq 2) (text) (node)))
+                   :like-count (parse-post-integer ($ infos (eq 4) (text) (node))))))
 
 (defgeneric get-user-id (user) (:documentation "Retrieve the ID of a user from their title."))
 
