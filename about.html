@@ -17,7 +17,7 @@
   </head>
   <body>
     <header>
-      <h1>v0.1.0</h1>
+      <h1>v0.1.2</h1>
     </header>
     <div id="content">
       <article>
@@ -40,10 +40,10 @@
                 <span class="functype">EXTERNAL SPECIAL</span>
                 <code>
                   <h3 class="funcname">*INDEX*</h3>
-                  <span class="funcargs">NIL</span>
+                  <span class="funcargs"></span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">String for the index of the forum without trailing slash.</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="*USER*"/>
@@ -52,10 +52,10 @@
                 <span class="functype">EXTERNAL SPECIAL</span>
                 <code>
                   <h3 class="funcname">*USER*</h3>
-                  <span class="funcargs">NIL</span>
+                  <span class="funcargs"></span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Object containing the currently logged in user.</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="AUTHOR"/>
@@ -67,7 +67,19 @@
                   <span class="funcargs">(SB-PCL::OBJECT)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="AUTHOR"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">AUTHOR</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-POST))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="CONVERSATION"/>
@@ -76,7 +88,7 @@
                 <span class="functype">EXTERNAL CLASS</span>
                 <code>
                   <h3 class="funcname">CONVERSATION</h3>
-                  <span class="funcargs">NIL</span>
+                  <span class="funcargs"></span>
                 </code>
               </header>
               <pre class="funcdesc">Object for interacting with user conversations.</pre>
@@ -91,7 +103,31 @@
                   <span class="funcargs">(USER)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Retrieve the conversations the user has participated in. Note that this only works for the logged in user.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="CONVERSATIONS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">CONVERSATIONS</h3>
+                  <span class="funcargs">((USER USER))</span>
+                </code>
+              </header>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="FORUM"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL CLASS</span>
+                <code>
+                  <h3 class="funcname">FORUM</h3>
+                  <span class="funcargs"></span>
+                </code>
+              </header>
+              <pre class="funcdesc">Representation of a forum that contains threads.</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="FORUM-ERROR"/>
@@ -100,10 +136,46 @@
                 <span class="functype">EXTERNAL CLASS</span>
                 <code>
                   <h3 class="funcname">FORUM-ERROR</h3>
-                  <span class="funcargs">NIL</span>
+                  <span class="funcargs"></span>
                 </code>
               </header>
               <pre class="funcdesc">Condition signalled when a forum request returns an error.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="FORUM-POST"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL CLASS</span>
+                <code>
+                  <h3 class="funcname">FORUM-POST</h3>
+                  <span class="funcargs"></span>
+                </code>
+              </header>
+              <pre class="funcdesc">A post in a general forum thread.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="FORUM-THREAD"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL CLASS</span>
+                <code>
+                  <h3 class="funcname">FORUM-THREAD</h3>
+                  <span class="funcargs"></span>
+                </code>
+              </header>
+              <pre class="funcdesc">A thread in a forum category.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="GET-FORUMS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL FUNCTION</span>
+                <code>
+                  <h3 class="funcname">GET-FORUMS</h3>
+                  <span class="funcargs">()</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Retrieve all forums.</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="GET-POSTS"/>
@@ -112,10 +184,95 @@
                 <span class="functype">EXTERNAL GENERIC</span>
                 <code>
                   <h3 class="funcname">GET-POSTS</h3>
-                  <span class="funcargs">(OBJECT &amp;KEY (LAST-POST 0) &amp;ALLOW-OTHER-KEYS)</span>
+                  <span class="funcargs">(OBJECT &amp;KEY (NUM 20) (START 0) (LAST-POST 0) &amp;ALLOW-OTHER-KEYS)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Retrieve all posts in a thread or post-flow</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="GET-POSTS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">GET-POSTS</h3>
+                  <span class="funcargs">((OBJECT SHOUTBOX) &amp;KEY (NUM 20) (START 0) (LAST-POST 0) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Retrieves as many shoutbox posts as possible, or from the last-post ID on.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="GET-POSTS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">GET-POSTS</h3>
+                  <span class="funcargs">((OBJECT FORUM-THREAD) &amp;KEY (NUM 20) (START 0) (LAST-POST 0) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Retrieve all or a subset of posts in a forum thread.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="GET-POSTS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">GET-POSTS</h3>
+                  <span class="funcargs">((OBJECT CONVERSATION) &amp;KEY (NUM 20) (START 0) (LAST-POST 0) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Retrieve all posts in the given conversation.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="GET-POSTS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">GET-POSTS</h3>
+                  <span class="funcargs">((OBJECT PROFILE-THREAD) &amp;KEY (NUM 20) (START 0) (LAST-POST 0)
+ &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="GET-THREADS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL GENERIC</span>
+                <code>
+                  <h3 class="funcname">GET-THREADS</h3>
+                  <span class="funcargs">(OBJECT &amp;KEY (NUM 20) (START 0) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Retrieve all threads in a meta-forum.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="GET-THREADS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">GET-THREADS</h3>
+                  <span class="funcargs">((OBJECT FORUM) &amp;KEY (NUM 20) (START 0) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Retrieve all or a subset of threads in a forum.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="GET-THREADS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">GET-THREADS</h3>
+                  <span class="funcargs">((OBJECT USER) &amp;KEY (NUM 20) (START 0) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Retrieve the threads on the profile page of a user.</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="ID"/>
@@ -127,7 +284,43 @@
                   <span class="funcargs">(SB-PCL::OBJECT)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="ID"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">ID</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-POST))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="ID"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">ID</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-THREAD))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="ID"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">ID</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-FORUM))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="INITIATE"/>
@@ -139,7 +332,7 @@
                   <span class="funcargs">(INDEX USER PASS)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Shorthand function to set up XenCL.</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="INVITE"/>
@@ -151,7 +344,19 @@
                   <span class="funcargs">(CONVERSATION PARTICIPANTS)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Invite a new user to the given conversation.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="INVITE"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">INVITE</h3>
+                  <span class="funcargs">((CONVERSATION CONVERSATION) (PARTICIPANTS T))</span>
+                </code>
+              </header>
+              <pre class="funcdesc"></pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="LOGIN"/>
@@ -163,7 +368,19 @@
                   <span class="funcargs">(USER)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Attempt to log in with the provided user's credentials (id &amp; pass)</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="LOGIN"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">LOGIN</h3>
+                  <span class="funcargs">((USER USER))</span>
+                </code>
+              </header>
+              <pre class="funcdesc"></pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="LOGOUT"/>
@@ -175,7 +392,19 @@
                   <span class="funcargs">(USER)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Log the currently logged in user out again.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="LOGOUT"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">LOGOUT</h3>
+                  <span class="funcargs">((USER USER))</span>
+                </code>
+              </header>
+              <pre class="funcdesc"></pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="MESSAGE"/>
@@ -187,7 +416,19 @@
                   <span class="funcargs">(SB-PCL::OBJECT)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="MESSAGE"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">MESSAGE</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-POST))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="OP"/>
@@ -199,7 +440,19 @@
                   <span class="funcargs">(SB-PCL::OBJECT)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="OP"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">OP</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-THREAD))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="PASS"/>
@@ -211,7 +464,19 @@
                   <span class="funcargs">(SB-PCL::OBJECT)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="PASS"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">PASS</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT USER))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="POST"/>
@@ -223,7 +488,55 @@
                   <span class="funcargs">(OBJECT MESSAGE &amp;ALLOW-OTHER-KEYS)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Post a new message to a thread or post-flow.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="POST"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">POST</h3>
+                  <span class="funcargs">((OBJECT SHOUTBOX) (MESSAGE T) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Post a new message to the shoutbox.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="POST"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">POST</h3>
+                  <span class="funcargs">((OBJECT FORUM-THREAD) (MESSAGE T) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Post a new message to a forum thread.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="POST"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">POST</h3>
+                  <span class="funcargs">((OBJECT CONVERSATION) (MESSAGE T) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Reply to a given conversation.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="POST"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">POST</h3>
+                  <span class="funcargs">((OBJECT PROFILE-THREAD) (MESSAGE T) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc"></pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="POST-TIME"/>
@@ -235,7 +548,31 @@
                   <span class="funcargs">(SB-PCL::OBJECT)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="POST-TIME"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">POST-TIME</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-POST))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="POST-TIME"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">POST-TIME</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-THREAD))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="REPLY"/>
@@ -247,7 +584,55 @@
                   <span class="funcargs">(OBJECT MESSAGE &amp;ALLOW-OTHER-KEYS)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Reply to a thread or post-flow.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="REPLY"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">REPLY</h3>
+                  <span class="funcargs">((OBJECT SHOUTBOX-POST) (MESSAGE T) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Reply to a shoutbox post.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="REPLY"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">REPLY</h3>
+                  <span class="funcargs">((OBJECT FORUM-POST) (MESSAGE T) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Reply to a given post.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="REPLY"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">REPLY</h3>
+                  <span class="funcargs">((OBJECT CONVERSATION-POST) (MESSAGE T) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Reply to a message in a conversation.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="REPLY"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">REPLY</h3>
+                  <span class="funcargs">((OBJECT PROFILE-POST) (MESSAGE T) &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Reply to a post on a user-profile thread.</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="SHOUTBOX"/>
@@ -256,34 +641,10 @@
                 <span class="functype">EXTERNAL CLASS</span>
                 <code>
                   <h3 class="funcname">SHOUTBOX</h3>
-                  <span class="funcargs">NIL</span>
+                  <span class="funcargs"></span>
                 </code>
               </header>
               <pre class="funcdesc">Shoutbox class for interacting with the XenForo taigachat.</pre>
-            </article>
-          </li><li id="template">
-            <a class="anchor" name="SHOUTBOX-POST"/>
-            <article>
-              <header>
-                <span class="functype">EXTERNAL CLASS</span>
-                <code>
-                  <h3 class="funcname">SHOUTBOX-POST</h3>
-                  <span class="funcargs">(MESSAGE)</span>
-                </code>
-              </header>
-              <pre class="funcdesc">Shoutbox post class.</pre>
-            </article>
-          </li><li id="template">
-            <a class="anchor" name="SHOUTBOX-POST"/>
-            <article>
-              <header>
-                <span class="functype">EXTERNAL FUNCTION</span>
-                <code>
-                  <h3 class="funcname">SHOUTBOX-POST</h3>
-                  <span class="funcargs">(MESSAGE)</span>
-                </code>
-              </header>
-              <pre class="funcdesc">NIL</pre>
             </article>
           </li><li id="template">
             <a class="anchor" name="START-CONVERSATION"/>
@@ -295,7 +656,91 @@
                   <span class="funcargs">(USER PARTICIPANTS TITLE MESSAGE)</span>
                 </code>
               </header>
-              <pre class="funcdesc">NIL</pre>
+              <pre class="funcdesc">Start a new conversation with the given participants.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="START-CONVERSATION"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">START-CONVERSATION</h3>
+                  <span class="funcargs">((USER USER) (PARTICIPANTS T) (TITLE T) (MESSAGE T))</span>
+                </code>
+              </header>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="START-THREAD"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL GENERIC</span>
+                <code>
+                  <h3 class="funcname">START-THREAD</h3>
+                  <span class="funcargs">(OBJECT MESSAGE &amp;KEY TITLE &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Create a new thread in a meta-forum.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="START-THREAD"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">START-THREAD</h3>
+                  <span class="funcargs">((OBJECT FORUM) (MESSAGE T) &amp;KEY TITLE &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Start a new thread in a given forum.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="START-THREAD"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">START-THREAD</h3>
+                  <span class="funcargs">((OBJECT USER) (MESSAGE T) &amp;KEY TITLE &amp;ALLOW-OTHER-KEYS)</span>
+                </code>
+              </header>
+              <pre class="funcdesc">Start a new thread on the profile page of a user.</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="TITLE"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL GENERIC</span>
+                <code>
+                  <h3 class="funcname">TITLE</h3>
+                  <span class="funcargs">(SB-PCL::OBJECT)</span>
+                </code>
+              </header>
+              <pre class="funcdesc"></pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="TITLE"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">TITLE</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT FORUM-THREAD))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
+            </article>
+          </li><li id="template">
+            <a class="anchor" name="TITLE"/>
+            <article>
+              <header>
+                <span class="functype">EXTERNAL METHOD</span>
+                <code>
+                  <h3 class="funcname">TITLE</h3>
+                  <span class="funcargs">((SB-PCL::OBJECT META-FORUM))</span>
+                </code>
+              </header>
+              <pre class="funcdesc">automatically generated reader method</pre>
             </article>
           </li></ul>
       </article>

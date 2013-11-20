@@ -18,4 +18,4 @@
   (write-documentation :xencl
                        (merge-pathnames "about-template.html" (asdf:system-source-directory :xencl))
                        :output-file (merge-pathnames "about.html" (asdf:system-source-directory :xencl))
-                       :exclude '(:internal :method)))
+                       :exclude '(:internal)))
