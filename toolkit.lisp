@@ -12,9 +12,9 @@
 (defvar *user* NIL "Object containing the currently logged in user.")
 
 (define-condition forum-error (error)
-  ((info :initarg :info)
-   (code :initarg :code)
-   (page :initarg :page))
+  ((info :initarg :info :accessor info)
+   (code :initarg :code :accessor code)
+   (page :initarg :page :accessor page))
   (:documentation "Condition signalled when a forum request returns an error."))
 
 (defmethod print-object ((obj forum-error) stream)

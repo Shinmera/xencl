@@ -23,7 +23,8 @@
            :forum-post
            :*index*
            :*user*
-           :forum-error
+           :user
+           :forum-error :code :info :page
            :initiate
            :login
            :logout
