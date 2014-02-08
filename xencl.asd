@@ -14,7 +14,7 @@
   :license "Artistic"
   :author "Nicolas Hafner <shinmera@tymoon.eu>"
   :maintainer "Nicolas Hafner <shinmera@tymoon.eu>"
-  :description "Library for interaction with XenForo forums through CommonLisp."
+  :description "Library for interaction with XenForo forums."
   :long-description ""
   :serial T
   :components ((:file "package")
