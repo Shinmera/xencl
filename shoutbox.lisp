@@ -18,7 +18,10 @@
   (print-unreadable-object (shoutbox-post out :type T)
     (format out "#~d ~a <~a>" (id shoutbox-post) (local-time:format-timestring NIL (post-time shoutbox-post) :format '((:hour 2) #\: (:min 2))) (author shoutbox-post))))
 
-(defmethod get-posts ((shoutbox shoutbox) &key (last-post 0))
+(defmethod get-posts ((s shoutbox) &key (last-post 0))
+  (get-posts :shoutbox :last-post last-post))
+
+(defmethod get-posts ((s (eql :shoutbox)) &key (last-post 0))
   "Retrieves as many shoutbox posts as possible, or from the last-post ID on."
   (setf last-post
         (etypecase last-post
@@ -77,6 +80,9 @@
 
 (defmethod post ((shoutbox shoutbox) message &key)
   "Post a new message to the shoutbox."
+  (shoutbox-post message))
+
+(defmethod post ((s (eql :shoutbox)) message &key)
   (shoutbox-post message))
 
 (defmethod reply ((shoutbox-post shoutbox-post) message &key)
