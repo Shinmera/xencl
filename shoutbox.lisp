@@ -16,7 +16,7 @@
 
 (defmethod print-object ((shoutbox-post shoutbox-post) out)
   (print-unreadable-object (shoutbox-post out :type T)
-    (format out "#~d ~a <~a>" (id shoutbox-post) (local-time:format-timestring NIL (post-time shoutbox-post) :format '(:hour #\: :min)) (author shoutbox-post))))
+    (format out "#~d ~a <~a>" (id shoutbox-post) (local-time:format-timestring NIL (post-time shoutbox-post) :format '((:hour 2) #\: (:min 2))) (author shoutbox-post))))
 
 (defmethod get-posts ((shoutbox shoutbox) &key (last-post 0))
   "Retrieves as many shoutbox posts as possible, or from the last-post ID on."
@@ -82,3 +82,21 @@
 (defmethod reply ((shoutbox-post shoutbox-post) message &key)
   "Reply to a shoutbox post."
   (shoutbox-post (format NIL "~a: ~a" (author shoutbox-post) message)))
+
+(defun map-shoutbox (function &key (poll 5))
+  (loop with last-post-id = 0
+        for posts = (get-posts (make-instance 'shoutbox) :last-post last-post-id)
+        do (loop for post in posts
+                 do (when (< last-post-id (id post))
+                      (funcall function post))
+                 finally (when post (setf last-post-id (id post))))
+           (sleep poll)))
+
+(defgeneric print-shoutbox-post (post &key time-format author-length)
+  (:method ((post shoutbox-post) &key (time-format '((:hour 2) #\: (:min 2))) (author-length 10))
+    (format T "~&~a <~a>: ~a~%"
+            (local-time:format-timestring NIL (post-time post) :format time-format)
+            (if (< author-length (length (author post)))
+                (subseq (author post) 0 author-length)
+                (format NIL "~a~a" (author post) (make-string (- author-length (length (author post))) :initial-element #\Space)))
+            ($ (initialize (format NIL "<div>~a</div>" (message post))) (text) (node)))))
