@@ -57,7 +57,8 @@
                    ("_xfToken" . "")))))
     (assert (not (search "Error" ($ "h1" (text) (node)))) ()
             'forum-error :code 2 :info (format NIL "Error while logging in: ~a" (get-text ".pageContent")))
-    (token)))
+    (token)
+    (setf *user* (get-user (title user)))))
 
 (defgeneric logout (user) (:documentation "Log the currently logged in user out again."))
 
@@ -70,7 +71,9 @@
   ;; We save a page load by using that getting the user-id also gets us the profile page.
   ;; Yay for hacks.
   (let ((*lquery-master-document*))
-    (let ((id (get-user-id username))
+    (checked-request "/members/" `(("username" . ,username)))
+    (let ((id (let ((id ($ ".crumb" (last) (attr :href) (node))))
+                (subseq id (1+ (search "/" id :from-end T :end2 (1- (length id)))) (search "/" id :from-end T))))
           (infos ($ ".profilePage .mast .secondaryContent" (first) "dd")))
       (make-instance 'user :id id :title username
                            :pass NIL
