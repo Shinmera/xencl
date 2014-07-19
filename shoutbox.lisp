@@ -76,7 +76,7 @@
                     ("sidebar" . "0")
                     ("message" . ,message)) :stream T))
   ;GET POST INSTANCE
-  )
+  T)
 
 (defmethod post ((shoutbox shoutbox) message &key)
   "Post a new message to the shoutbox."
@@ -89,9 +89,10 @@
   "Reply to a shoutbox post."
   (shoutbox-post (format NIL "~a: ~a" (author shoutbox-post) message)))
 
-(defun map-shoutbox (function &key (poll 5))
+(defun map-shoutbox (function &key (poll 5) (break-condition (constantly NIL)))
   (loop with last-post-id = 0
         for posts = (get-posts (make-instance 'shoutbox) :last-post last-post-id)
+        while (funcall break-condition)
         do (loop for post in posts
                  do (when (< last-post-id (id post))
                       (funcall function post))
