@@ -7,8 +7,8 @@
 (in-package :org.tymoonnext.ed-bot.xencl)
 
 (defclass meta-forum ()
-  ((id :initarg :id :accessor id)
-   (title :initarg :title :accessor title))
+  ((id :initarg :id :initform NIL :accessor id)
+   (title :initarg :title :initform NIL :accessor title))
   (:documentation "Super-class for forum-like classes that contain threads."))
 
 (defmethod print-object ((forum meta-forum) out)
@@ -21,9 +21,9 @@
   (:documentation "Create a new thread in a meta-forum."))
 
 (defclass meta-thread ()
-  ((id :initarg :id :accessor id)
-   (op :initarg :op :accessor op)
-   (time :initarg :time :accessor post-time))
+  ((id :initarg :id :initform NIL :accessor id)
+   (op :initarg :op :initform NIL :accessor op)
+   (time :initarg :time :initform NIL :accessor post-time))
   (:documentation "Super-class for thread-like classes that contain posts."))
 
 (defmethod print-object ((thread meta-thread) out)
@@ -36,11 +36,11 @@
   (:documentation "Post a new message to a thread or post-flow."))
 
 (defclass meta-post ()
-  ((id :initarg :id :accessor id)
-   (thread :initarg :thread :accessor thread)
-   (author :initarg :author :reader author)
-   (message :initarg :message :accessor message)
-   (time :initarg :time :accessor post-time))
+  ((id :initarg :id :initform NIL :accessor id)
+   (thread :initarg :thread :initform NIL :accessor thread)
+   (author :initarg :author :initform NIL :reader author)
+   (message :initarg :message :initform NIL :accessor message)
+   (time :initarg :time :initform NIL :accessor post-time))
   (:documentation "Super-class for post-like classes."))
 
 (defmethod print-object ((post meta-post) out)

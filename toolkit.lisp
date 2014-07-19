@@ -10,15 +10,19 @@
 (defvar *token* NIL "Contains the security token required in almost all requests.")
 (defvar *index* NIL "String for the index of the forum without trailing slash.")
 (defvar *user* NIL "Object containing the currently logged in user.")
+(defvar *time-format* '((:year 4) #\. (:month 2) #\. (:day 2) #\Space (:hour 2) #\: (:min 2) #\: (:sec 2)))
 
 (define-condition forum-error (error)
-  ((info :initarg :info :accessor info)
-   (code :initarg :code :accessor code)
-   (page :initarg :page :accessor page))
+  ((info :initarg :info :initform NIL :accessor info)
+   (code :initarg :code :initform NIL :accessor code)
+   (page :initarg :page :initform NIL :accessor page))
   (:documentation "Condition signalled when a forum request returns an error."))
 
 (defmethod print-object ((obj forum-error) stream)
   (format stream "~a (~a) ~a" (slot-value obj 'info) (slot-value obj 'code) (slot-value obj 'page)))
+
+(defun format-time (timestamp &optional (time-format *time-format*))
+  (local-time:format-timestring NIL timestamp :format time-format))
 
 (defun url (url) (concatenate 'string *index* url))
 
@@ -36,14 +40,16 @@
 
 (defun get-text (selector)
   (string-trim '(#\Newline #\Space #\Tab) 
-               (format NIL "~{~a~}" 
-                       ($ selector (contents) 
-                          (each #'(lambda (node) (if (dom:text-node-p node) (dom:data node) "")) :replace T)))))
+               (format NIL "~{~a~}"
+                       (coerce
+                        ($ selector (contents) 
+                          (each #'(lambda (node) (if (plump:text-node-p node) (plump:text node) "")) :replace T))
+                        'list))))
 
 (defun token (&optional page)
   (if page (request page))
   (let ((token ($ "input[name='_xfToken']" (attr :value) (node))))
-    (assert (and token (> (length token) 0)) ()
+    (assert (and token (< 0 (length token))) ()
             'forum-error :code 3 :info "Token empty or not found on page!")
     (setf *token* token)))
 
@@ -52,7 +58,7 @@
   (request url (acons "_xfToken" forum-token params) stream))
 
 (defun checked-request (url params &key (forum-token *token*) stream)
-  ($ (initialize (token-request url params :forum-token forum-token :stream stream) :type :HTML))
+  ($ (initialize (token-request url params :forum-token forum-token :stream stream)))
   (when (search "Error" ($ "h1" (text) (node)))
     (error 'forum-error :code 404 :page url :info ($ "label.OverlayCloser" (text) (node)))))
 
@@ -73,7 +79,7 @@
            (loop with ,rootsym = (concatenate 'string "/" ($ ,navsym "a[rel=\"start\"]" (attr :href) (node)))
               for ,itersym from 2 upto (parse-integer ($ ,navsym (attr :data-last) (node)))
               while ,predicate
-              do ($ (initialize (token-request ,rootsym `(("page" . ,(format NIL "~a" ,itersym)))) :type :HTML))
+              do ($ (initialize (token-request ,rootsym `(("page" . ,(format NIL "~a" ,itersym))))))
                 (,funcsym)))))))
 
 (defun crawl-nodes (node parser &key (start 0) (num -1))
@@ -127,3 +133,5 @@
               (progn (parse-date timestamp (subseq datetime 0 (1- pos)))
                      (parse-time timestamp (subseq datetime (+ pos 3))))
               (parse-date timestamp datetime))))))
+
+(defgeneric enumerate (object))

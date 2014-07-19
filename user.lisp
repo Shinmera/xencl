@@ -7,14 +7,27 @@
 (in-package :org.tymoonnext.ed-bot.xencl)
 
 (defclass user (meta-forum)
-  ((pass :initarg :pass :reader pass)
-   (like-count :initarg :like-count :reader like-count)
-   (message-count :initarg :message-count :reader message-count)
-   (trophy-count :initarg :trophy-count :reader trophy-count)
-   (follower-count :initarg :follower-count :reader follower-count)
-   (register-date :initarg :register-date :reader register-date)
-   (last-activity :initarg :last-activity :reader last-activity))
+  ((pass :initarg :pass :initform NIL :reader pass)
+   (like-count :initarg :like-count :initform NIL :reader like-count)
+   (message-count :initarg :message-count :initform NIL :reader message-count)
+   (trophy-count :initarg :trophy-count :initform NIL :reader trophy-count)
+   (follower-count :initarg :follower-count :initform NIL :reader follower-count)
+   (register-date :initarg :register-date :initform NIL :reader register-date)
+   (last-activity :initarg :last-activity :initform NIL :reader last-activity))
   (:documentation "Standard user object for user related interactions."))
+
+(defmethod enumerate ((user user))
+  (format T "ID: ~a~%~
+             Title: ~a~%~
+             Register-Date: ~a~%~
+             Last-Activity: ~a~%~
+             Messages: ~d~%~
+             Tophies: ~d~%~
+             Followers: ~d"
+          (id user) (title user)
+          (format-time (register-date user))
+          (format-time (last-activity user))
+          (message-count user) (trophy-count user) (follower-count user)))
 
 (defclass profile-thread (meta-thread)
   ()
@@ -29,8 +42,7 @@
 (defmethod login ((user user))
   (setf *cookies* (make-instance 'drakma:cookie-jar)
         *user* user)
-  ($ (initialize
-      (request "/login") :type :HTML))
+  ($ (initialize (request "/login")))
   (assert (string-equal (url "/") ($ "head base" (attr :href) (node))) ()
           'forum-error :code 1 :info "Header base does not match index page!")
   ($ (initialize
@@ -41,7 +53,7 @@
                        ("remember" . "1")
                        ("cookie_check" . "1")
                        ("redirect" . ,(url "/"))
-                       ("_xfToken" . ""))) :type :HTML))
+                       ("_xfToken" . "")))))
   (assert (not (search "Error" ($ "h1" (text) (node)))) ()
           'forum-error :code 2 :info (format NIL "Error while logging in: ~a" (get-text ".pageContent")))
   (token))

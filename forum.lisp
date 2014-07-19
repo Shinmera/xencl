@@ -11,7 +11,7 @@
   (:documentation "Representation of a forum that contains threads."))
 
 (defclass forum-thread (meta-thread)
-  ((title :initarg :title :accessor title))
+  ((title :initarg :title :initform NIL :accessor title))
   (:documentation "A thread in a forum category."))
 
 (defclass forum-post (meta-post)
