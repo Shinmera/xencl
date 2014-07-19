@@ -14,6 +14,7 @@
            :get-posts
            :get-threads
            :get-forums
+           :get-user
            :post
            :reply
            :invite
